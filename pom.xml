@@ -28,10 +28,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>tec.units</groupId>
-			<artifactId>unit-ri</artifactId>
-			<version>1.0.3</version>
+			<groupId>tec.uom</groupId>
+			<artifactId>uom-se</artifactId>
+			<version>1.0.8</version>
 		</dependency>
+
 	</dependencies>
 
 	<repositories>
