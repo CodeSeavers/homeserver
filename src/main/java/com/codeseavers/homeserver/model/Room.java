@@ -15,9 +15,7 @@ public class Room {
 	public long height;
 	// Unit<Quantity<Q>> unit;
 
-	public Room(String id, String name, String level, long length, long width, long height) {
-		super();
-		this.id = id;
+	public Room(String name, String level, long length, long width, long height) {
 		this.name = name;
 		this.level = level;
 		this.length = length;
