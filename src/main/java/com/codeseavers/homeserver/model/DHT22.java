@@ -1,15 +1,14 @@
 package com.codeseavers.homeserver.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DHT22 implements Sensor {
 
 	private Room room;
-	private List<Measurement<?>> measurements;
+	private final List<Class<? extends Measurement<?>>> measurements;
 
 	public DHT22() {
-		this.measurements = new ArrayList<>();		
+		this.measurements = List.of(Temperature.class, Humidity.class);
 	}
 	
 	@Override
@@ -18,15 +17,12 @@ public class DHT22 implements Sensor {
 	}
 
 	@Override
-	public List<Measurement<?>> getMeasurements() {
+	public List<Class<? extends Measurement<?>>> getMeasurements() {
 		return this.measurements; 
 	}
 
-	public void addTemperature(Temperature measure) {
-		this.measurements.add(measure);
-	}
-
-	public void addHumidity(Humidity measure) {
-		this.measurements.add(measure);
+	@Override
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 }

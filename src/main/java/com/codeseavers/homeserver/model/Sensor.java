@@ -5,5 +5,8 @@ import java.util.List;
 public interface Sensor {
 
 	Room getRoom();
-	List<Measurement<?>> getMeasurements();
+
+	void setRoom(Room room);
+
+	List<Class<? extends Measurement<?>>> getMeasurements();
 }

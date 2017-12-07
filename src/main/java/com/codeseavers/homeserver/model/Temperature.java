@@ -8,6 +8,14 @@ public class Temperature implements Measurement<Double> {
 	private String unit = "CELSIUS";
 	private double value;
 
+	public Temperature() {
+	}
+	
+	public Temperature(double value) {
+		this.timestamp = new Date();
+		this.value = value;
+	}
+
 	@Override
 	public Double getValue() {
 		return this.value;
@@ -21,5 +29,10 @@ public class Temperature implements Measurement<Double> {
 	@Override
 	public Date getTimestamp() {
 		return this.timestamp;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+		this.timestamp = new Date();
 	}
 }

@@ -24,7 +24,7 @@ public class Room {
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -32,7 +32,7 @@ public class Room {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -40,7 +40,7 @@ public class Room {
 	}
 
 	public String getLevel() {
-		return level;
+		return this.level;
 	}
 
 	public void setLevel(String level) {
@@ -48,7 +48,7 @@ public class Room {
 	}
 
 	public long getLength() {
-		return length;
+		return this.length;
 	}
 
 	public void setLength(long length) {
@@ -56,7 +56,7 @@ public class Room {
 	}
 
 	public long getWidth() {
-		return width;
+		return this.width;
 	}
 
 	public void setWidth(long width) {
@@ -64,11 +64,10 @@ public class Room {
 	}
 
 	public long getHeight() {
-		return height;
+		return this.height;
 	}
 
 	public void setHeight(long height) {
 		this.height = height;
 	}
-
 }
