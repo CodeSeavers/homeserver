@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class RoomRepositoryTest {
 	@Autowired
 	RoomRepository roomRepository;
 	
+	@After
+	public void cleanUpDB() {
+		this.roomRepository.deleteAll();
+	}
+
 	@Test
 	public void repository_existing() {
 		assertThat(roomRepository, is(notNullValue()));

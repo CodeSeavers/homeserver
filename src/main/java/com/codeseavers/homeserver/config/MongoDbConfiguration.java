@@ -17,7 +17,7 @@ public class MongoDbConfiguration extends AbstractMongoConfiguration {
 		return new MongoClient(
 					Collections.singletonList(new ServerAddress("192.168.2.11", 27017)),
 				Collections.singletonList(
-						MongoCredential.createCredential("alex", "homeserver", "".toCharArray())));
+						MongoCredential.createCredential("admin", "admin", "".toCharArray())));
 	}
 
 	@Override

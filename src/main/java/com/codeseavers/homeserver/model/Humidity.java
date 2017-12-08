@@ -8,6 +8,15 @@ public class Humidity implements Measurement<Double> {
 	private String unit = "PERCENT";
 	private Date timestamp;
 
+	public Humidity() {
+		this.timestamp = new Date();
+	}
+
+	public Humidity(double value) {
+		this();
+		this.value = value;
+	}
+
 	@Override
 	public Double getValue() {
 		return this.value;

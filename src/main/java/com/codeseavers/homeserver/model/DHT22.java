@@ -5,10 +5,10 @@ import java.util.List;
 public class DHT22 implements Sensor {
 
 	private Room room;
-	private final List<Class<? extends Measurement<?>>> measurements;
+	private final List<String> measurements;
 
 	public DHT22() {
-		this.measurements = List.of(Temperature.class, Humidity.class);
+		this.measurements = List.of(Temperature.class.toString(), Humidity.class.toString());
 	}
 	
 	@Override
@@ -17,7 +17,7 @@ public class DHT22 implements Sensor {
 	}
 
 	@Override
-	public List<Class<? extends Measurement<?>>> getMeasurements() {
+	public List<String> getMeasurements() {
 		return this.measurements; 
 	}
 

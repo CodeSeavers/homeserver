@@ -1,7 +1,6 @@
 package com.codeseavers.homeserver.repository;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
@@ -9,6 +8,17 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
+
+import com.codeseavers.homeserver.config.MongoDbTestConfiguration;
+import com.codeseavers.homeserver.model.DHT22;
+import com.codeseavers.homeserver.model.Humidity;
+import com.codeseavers.homeserver.model.Reading;
+import com.codeseavers.homeserver.model.Room;
+import com.codeseavers.homeserver.model.Sensor;
+import com.codeseavers.homeserver.model.Temperature;
+import com.codeseavers.homeserver.repositories.ReadingRepository;
+import com.codeseavers.homeserver.repositories.RoomRepository;
+import com.codeseavers.homeserver.repositories.SensorRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,16 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.codeseavers.homeserver.config.MongoDbTestConfiguration;
-import com.codeseavers.homeserver.model.DHT22;
-import com.codeseavers.homeserver.model.Reading;
-import com.codeseavers.homeserver.model.Room;
-import com.codeseavers.homeserver.model.Sensor;
-import com.codeseavers.homeserver.model.Temperature;
-import com.codeseavers.homeserver.repositories.ReadingRepository;
-import com.codeseavers.homeserver.repositories.RoomRepository;
-import com.codeseavers.homeserver.repositories.SensorRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -54,11 +54,15 @@ public class ReadingRepositoryTest {
 
 		this.temperatureSensor = new DHT22();
 		this.temperatureSensor.setRoom(this.wohnzimmer);
+
+		this.sensors.insert(this.temperatureSensor);
 	}
 	
 	@After
 	public void roomService() {
-		
+		this.rooms.deleteAll();
+		this.readings.deleteAll();
+		this.sensors.deleteAll();
 	}
 
 	@Test
@@ -69,22 +73,29 @@ public class ReadingRepositoryTest {
 	@Test
 	public void basic_insert() {
 
-		final List<Sensor> findSensorsByRoom = this.sensors.findSensorsByRoomAndMeasurements(this.wohnzimmer,
-				List.of(Temperature.class));
+		final List<Sensor> findSensorsByRoom = this.sensors.findSensorsByRoom(this.wohnzimmer);
+		assertThat(findSensorsByRoom, hasSize(1));
+
 		final Sensor sensor = findSensorsByRoom.stream().findFirst().orElse(mock(DHT22.class));
 
-		final Temperature temperature = new Temperature();
-		temperature.setValue(25);
+		final Temperature temperature = new Temperature(25);
 
-		final Reading reading = new Reading(sensor, List.of(temperature));
+		final Humidity humidity = new Humidity(80);
 
+		final Reading reading = new Reading(sensor, List.of(temperature, humidity));
 		this.readings.insert(reading);
 
 		final List<Reading> all = this.readings.findAll();
 		assertThat(all, hasSize(1));
-		assertThat(all.get(0).getMeasurements().get(0), is(instanceOf(Temperature.class)));
+		assertThat(all.get(0).getMeasurements(), hasSize(2));
 
-		final Temperature measurement = (Temperature) all.get(0).getMeasurements().get(0);
-		assertThat(measurement.getValue(), is(equalTo(25.0)));
+		Temperature temperatureReading = (Temperature)all.get(0).getMeasurements().get(0);
+		assertThat(temperatureReading.getClass().toString(), is(equalTo(Temperature.class.toString())));
+
+		Humidity humidityReading = (Humidity)all.get(0).getMeasurements().get(1);
+		assertThat(humidityReading.getClass().toString(), is(equalTo(Humidity.class.toString())));
+
+		assertThat(temperatureReading.getValue(), is(equalTo(25.0)));
+		assertThat(humidityReading.getValue(), is(equalTo(80.0)));
 	}
 }

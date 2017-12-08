@@ -8,5 +8,5 @@ public interface Sensor {
 
 	void setRoom(Room room);
 
-	List<Class<? extends Measurement<?>>> getMeasurements();
+	List<String> getMeasurements();
 }
