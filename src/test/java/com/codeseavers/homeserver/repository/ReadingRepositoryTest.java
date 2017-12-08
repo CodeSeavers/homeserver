@@ -76,6 +76,10 @@ public class ReadingRepositoryTest {
 		final List<Sensor> findSensorsByRoom = this.sensors.findSensorsByRoom(this.wohnzimmer);
 		assertThat(findSensorsByRoom, hasSize(1));
 
+		final List<Sensor> findSensorsByRoomAndMeasurement = this.sensors.findSensorsByRoomAndMeasurements(this.wohnzimmer, 
+			List.of(Temperature.class.toString(), Humidity.class.toString()));
+		assertThat(findSensorsByRoomAndMeasurement, hasSize(1));
+
 		final Sensor sensor = findSensorsByRoom.stream().findFirst().orElse(mock(DHT22.class));
 
 		final Temperature temperature = new Temperature(25);
